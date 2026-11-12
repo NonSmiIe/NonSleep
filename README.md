@@ -4,9 +4,12 @@ A small menu bar app that keeps a MacBook working with the lid closed — no ext
 display needed. Made so that long-running jobs (AI agents, builds, downloads) carry on
 while the Mac sits closed on a desk.
 
+![The NonSleep panel in its states, and the menu bar icon](docs/panel-dark.png)
+
 ## What it does
 
-- **One switch** in the menu bar: *Stay awake with lid closed*.
+- **One switch** in the menu bar panel. The menu bar icon is an eye: open while the Mac
+  stays awake, closed while it may sleep.
 - **Saves power while closed**: when the lid closes, the Mac goes into Low Power mode;
   when it opens, your previous energy mode comes back.
 - **Battery cut-off**: on battery, when the charge drops to the level you pick
@@ -75,6 +78,7 @@ Installed files:
 swift test                              # logic tests
 swift run NonSleepHelper --probe        # print lid, battery and heat readings
 ./scripts/build.sh                      # build/NonSleep.app
+swift run NonSleep --snapshot docs      # re-render the README screenshots
 ```
 
 ## License

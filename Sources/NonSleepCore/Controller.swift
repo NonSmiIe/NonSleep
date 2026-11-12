@@ -96,17 +96,19 @@ public final class Controller {
     private func apply(sensors: Sensors) {
         lastError = nil
         if state.enabled {
-            setSleepDisabled(true)
+            setSleepDisabled(true, sensors: sensors)
             if sensors.lidClosed { enterLowPower() } else { leaveLowPower() }
         } else {
             leaveLowPower()
-            setSleepDisabled(false)
+            setSleepDisabled(false, sensors: sensors)
         }
         persist(state)
     }
 
-    private func setSleepDisabled(_ disabled: Bool) {
-        guard sleepDisabledApplied != disabled else { return }
+    /// Goes by the switch as the system reports it, so a change made behind our back
+    /// (another tool, a system update) is put right on the next tick.
+    private func setSleepDisabled(_ disabled: Bool, sensors: Sensors) {
+        guard (sensors.sleepDisabled ?? sleepDisabledApplied) != disabled else { return }
         if run(["-a", "disablesleep", disabled ? "1" : "0"]) != nil {
             sleepDisabledApplied = disabled
         }

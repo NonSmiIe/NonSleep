@@ -22,19 +22,23 @@ public struct Sensors: Codable, Equatable {
     public var batteryTemperature: Double?
     /// macOS reports serious or critical thermal pressure.
     public var thermalPressureHigh: Bool
+    /// The system's "sleep disabled" switch as it is right now; nil when it cannot be read.
+    public var sleepDisabled: Bool?
 
     public init(
         lidClosed: Bool,
         onBattery: Bool,
         batteryPercent: Int?,
         batteryTemperature: Double?,
-        thermalPressureHigh: Bool
+        thermalPressureHigh: Bool,
+        sleepDisabled: Bool? = nil
     ) {
         self.lidClosed = lidClosed
         self.onBattery = onBattery
         self.batteryPercent = batteryPercent
         self.batteryTemperature = batteryTemperature
         self.thermalPressureHigh = thermalPressureHigh
+        self.sleepDisabled = sleepDisabled
     }
 }
 
@@ -44,6 +48,20 @@ public struct Status: Codable, Equatable {
     public var stopReason: StopReason?
     public var sensors: Sensors
     public var error: String?
+
+    public init(
+        enabled: Bool,
+        batteryThreshold: Int,
+        stopReason: StopReason? = nil,
+        sensors: Sensors,
+        error: String? = nil
+    ) {
+        self.enabled = enabled
+        self.batteryThreshold = batteryThreshold
+        self.stopReason = stopReason
+        self.sensors = sensors
+        self.error = error
+    }
 }
 
 /// XPC interface of the root helper. Every reply carries a JSON-encoded `Status`.

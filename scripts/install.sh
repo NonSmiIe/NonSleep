@@ -12,7 +12,10 @@ label="com.nonsmile.nonsleep.helper"
 ./scripts/build.sh
 
 sudo install -d -o root -g wheel -m 755 /Library/PrivilegedHelperTools
-sudo launchctl bootout "system/$label" 2>/dev/null || true
+if sudo launchctl bootout "system/$label" 2>/dev/null; then
+    # bootout returns before the old helper is gone; bootstrap fails until it is.
+    while sudo launchctl print "system/$label" >/dev/null 2>&1; do sleep 0.2; done
+fi
 sudo install -o root -g wheel -m 755 build/nonsleep-helper "/Library/PrivilegedHelperTools/$label"
 sudo install -o root -g wheel -m 644 "Resources/$label.plist" "/Library/LaunchDaemons/$label.plist"
 sudo launchctl bootstrap system "/Library/LaunchDaemons/$label.plist"

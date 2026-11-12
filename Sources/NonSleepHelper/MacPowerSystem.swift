@@ -18,7 +18,8 @@ struct MacPowerSystem: PowerSystem {
             batteryPercent: battery.percent,
             batteryTemperature: (registryValue(service: "AppleSmartBattery", key: "Temperature") as? Int)
                 .map { Double($0) / 100 },
-            thermalPressureHigh: [.serious, .critical].contains(ProcessInfo.processInfo.thermalState)
+            thermalPressureHigh: [.serious, .critical].contains(ProcessInfo.processInfo.thermalState),
+            sleepDisabled: registryValue(service: "IOPMrootDomain", key: "SleepDisabled") as? Bool
         )
     }
 

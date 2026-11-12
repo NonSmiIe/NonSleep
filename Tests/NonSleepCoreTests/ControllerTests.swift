@@ -128,6 +128,17 @@ final class ControllerTests: XCTestCase {
         XCTAssertNil(controller.status().error)
     }
 
+    func testSwitchClearedBehindOurBackIsSetAgain() {
+        system.current.sleepDisabled = false
+        controller.setEnabled(true)
+        system.current.sleepDisabled = true
+        controller.tick()
+        XCTAssertEqual(system.commands, [["-a", "disablesleep", "1"]])
+        system.current.sleepDisabled = false
+        controller.tick()
+        XCTAssertEqual(system.commands, [["-a", "disablesleep", "1"], ["-a", "disablesleep", "1"]])
+    }
+
     func testThresholdAcceptsOnlyOfferedChoices() {
         controller.setBatteryThreshold(30)
         controller.setBatteryThreshold(99)
