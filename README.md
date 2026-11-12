@@ -42,6 +42,25 @@ cd NonSleep
 
 The script asks for your password once to install the root helper.
 
+To update, pull the repository and run `./scripts/install.sh` again.
+
+## Use
+
+1. Click the eye in the menu bar and turn the switch on. The eye opens.
+2. Pick the battery level at which the Mac should give up and sleep (20% by default).
+3. Close the lid. The Mac keeps running in Low Power mode: jobs, network and remote
+   access carry on.
+4. Open the lid to get your usual energy mode back. Turn the switch off when you want
+   the Mac to sleep normally again.
+
+If the switch turned itself off, the panel says why: the battery reached the level you
+picked, or the Mac got too hot.
+
+NonSleep does not start at login. After a restart open it from Applications; the mode
+itself is remembered by the helper.
+
+## Uninstall
+
 To remove everything and restore the settings:
 
 ```sh
